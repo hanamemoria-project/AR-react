@@ -17,7 +17,7 @@ declare global {
 
 const ARScene = memo(() => {
   const sceneRef = useRef<any>(null);
-  const { orderData } = useAppStore();
+  const { orderData, envelopeDismissed } = useAppStore();
 
   useARLogic();
 
@@ -70,7 +70,7 @@ const ARScene = memo(() => {
   }
 
   return (
-    <div id="mindar-overlay-container">
+    <div id="mindar-overlay-container" className={envelopeDismissed ? 'active' : ''}>
       <div id="ar-scene-target-container" style={{ width: '100%', height: '100vh' }}>
         <a-scene
           ref={sceneRef}
@@ -92,6 +92,7 @@ const ARScene = memo(() => {
                 position={`${p[0]} ${p[1]} 0`} 
                 rotation={`0 0 ${rotZ}`} 
                 scale="1 1 1"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 800; easing: easeOutElastic; startEvents: doScale"
               >
                 <a-light type="point" color="#e8f4ff" intensity="0.8" distance="3" position="0 0 0.5"></a-light>
 

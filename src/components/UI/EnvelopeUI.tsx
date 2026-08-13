@@ -187,10 +187,14 @@ export default function EnvelopeUI() {
                   {isOpen && slides.length > 0 && (
                     <div 
                       key={currentSlideIndex} 
-                      className="letter-part part-body" 
-                      style={{ animation: 'fadeInSlide 0.6s ease-out forwards', width: '100%' }}
-                      dangerouslySetInnerHTML={{ __html: slides[currentSlideIndex].b }} 
-                    />
+                      className="letter-part" 
+                      style={{ animation: 'fadeInSlide 0.6s ease-out forwards', width: '100%', textAlign: 'center' }}
+                    >
+                      <div className="part-title" style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px', color: '#c9a464' }}>
+                        {slides[currentSlideIndex].t}
+                      </div>
+                      <div className="part-body" dangerouslySetInnerHTML={{ __html: slides[currentSlideIndex].b }} />
+                    </div>
                   )}
                </div>
                
