@@ -27,13 +27,7 @@ export interface SlideData {
 
 function escapeHtmlAndNl(unsafe: string | null | undefined): string {
   if (!unsafe) return "";
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
-    .replace(/\n/g, "<br/>");
+  return unsafe.replace(/\n/g, "<br/>");
 }
 
 export function parseSlides(data: OrderData, t: (key: string) => string): SlideData[] {

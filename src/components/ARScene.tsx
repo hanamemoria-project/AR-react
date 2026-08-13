@@ -27,13 +27,31 @@ const ARScene = memo(() => {
 
   useEffect(() => {
     if (envelopeDismissed && sceneRef.current) {
-      // Small timeout to allow DOM to flush the .active class
-      setTimeout(() => {
-        const sceneEl = sceneRef.current as any;
-        if (sceneEl.systems && sceneEl.systems['mindar-image-system']) {
-          sceneEl.systems['mindar-image-system'].start();
-        }
-      }, 100);
+      const sceneEl = sceneRef.current as any;
+
+      const initAR = () => {
+        // Wait 50ms to ensure the browser has painted display: block
+        setTimeout(() => {
+          if (sceneEl.systems && sceneEl.systems['mindar-image-system']) {
+            sceneEl.systems['mindar-image-system'].start();
+          } else {
+            console.warn("[HM] mindar-image-system not found even after load!");
+          }
+        }, 50);
+      };
+
+      if (sceneEl.hasLoaded) {
+        initAR();
+      } else {
+        sceneEl.addEventListener('loaded', initAR);
+        
+        // Fallback in case loaded never fires
+        setTimeout(() => {
+          if (!sceneEl.hasLoaded) {
+            initAR();
+          }
+        }, 3000);
+      }
     }
   }, [envelopeDismissed]);
 
