@@ -14,7 +14,11 @@ export async function fetchOrderData(idPelanggan: string) {
       throw new Error(`HTTP error ${res.status}`);
     }
 
-    const data = await res.json();
+    let data = await res.json();
+    if (Array.isArray(data)) {
+      if (data.length > 0) data = data[0];
+      else throw new Error('error_no_data');
+    }
     return data;
   } catch (e: any) {
     if (e.message.includes('fetch')) {
