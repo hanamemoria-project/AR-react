@@ -90,7 +90,17 @@ function App() {
 
       } catch (err: any) {
         console.error('[App] Init error:', err);
-        alert(`Error: ${err.message}`); // Will be replaced by proper error UI
+        const errDiv = document.createElement('div');
+        errDiv.style.position = 'fixed';
+        errDiv.style.top = '10px';
+        errDiv.style.left = '10px';
+        errDiv.style.background = 'red';
+        errDiv.style.color = 'white';
+        errDiv.style.padding = '10px';
+        errDiv.style.zIndex = '999999';
+        errDiv.innerHTML = `INIT ERROR:<br>${err.message}<br>${err.stack}`;
+        document.body.appendChild(errDiv);
+        alert(`Error: ${err.message}`);
       }
     };
 
