@@ -106,15 +106,7 @@ export default function EnvelopeUI() {
           onComplete: () => {
               overlay.classList.remove('show');
               overlay.style.display = 'none';
-              
               setEnvelopeDismissed(true); 
-
-              const sceneEl = document.querySelector('a-scene') as any;
-              if (sceneEl && sceneEl.systems['mindar-image-system']) {
-                  sceneEl.systems['mindar-image-system'].start();
-              } else {
-                  console.warn('A-Frame scene or MindAR system not found to start manually.');
-              }
           }
       });
     }

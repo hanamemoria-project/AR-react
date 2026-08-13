@@ -25,6 +25,18 @@ const ARScene = memo(() => {
     // Prevent accidental re-renders of the AR scene by memoizing and relying on refs for updates
   }, []);
 
+  useEffect(() => {
+    if (envelopeDismissed && sceneRef.current) {
+      // Small timeout to allow DOM to flush the .active class
+      setTimeout(() => {
+        const sceneEl = sceneRef.current as any;
+        if (sceneEl.systems && sceneEl.systems['mindar-image-system']) {
+          sceneEl.systems['mindar-image-system'].start();
+        }
+      }, 100);
+    }
+  }, [envelopeDismissed]);
+
   if (!orderData) return null;
 
   // Process data similar to old app.js
