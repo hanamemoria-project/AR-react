@@ -2619,6 +2619,21 @@ window.onload = async () => {
                     const rawData = await res.json();
                     const extracted = Array.isArray(rawData) ? rawData[0] : rawData;
 
+                    // Proxy R2 URLs to avoid CORS issues in AR Viewer
+                    if (extracted) {
+                        const r2Base = 'https://pub-02d853231cff4efa92ee6754c646a898.r2.dev/';
+                        const proxyUrl = (url) => {
+                            if (url && typeof url === 'string' && url.startsWith(r2Base)) {
+                                return WORKER_URL + '/r2/' + url.slice(r2Base.length);
+                            }
+                            return url;
+                        };
+                        if (extracted.link_target) extracted.link_target = proxyUrl(extracted.link_target);
+                        if (extracted.link_video) extracted.link_video = proxyUrl(extracted.link_video);
+                        if (extracted.link_frame) extracted.link_frame = proxyUrl(extracted.link_frame);
+                        if (extracted.link_foto) extracted.link_foto = proxyUrl(extracted.link_foto);
+                    }
+
                     if (extracted && extracted.link_target) {
                         networkData = extracted;
                         // Save to cache for future offline use
